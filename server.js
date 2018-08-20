@@ -3,30 +3,28 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 var stringifyFile;
 
-var app = express(),
-
+var app = express();
 app.use(bodyParser.json());
+
 
 app.get('/getNote', function(req, res) {
     fs.readFile('./test.json', 'utf8', function(err, data) {
 	    if (err) throw err;
-	    stringifyFile = data
+	    stringifyFile = data;
 	    res.send(data);
 	});
 });
 
-
 app.post('/updateNote/:note', function(req, res) { 
-    fs.writeFile('./test.json', stringifyFile, function(err) {
+	fs.writeFile('./test.json', stringifyFile, function(err) {
 	    stringifyFile = req.params.note;
-	    If (err) throw err;
+	    if (err) throw err;
 	    console.log('file updated' + stringifyFile);
 	});
 });
 
 
 app.listen(3000);
-
 app.use(function (req, res, next) {
     res.status(404).send('Wybacz, nie mogliśmy odnaleźć tego, czego żądasz!')
 });
